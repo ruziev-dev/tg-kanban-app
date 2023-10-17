@@ -1,5 +1,4 @@
 import {
-	WebAppProvider,
 	MainButton,
 	BackButton,
 	useInitData,
@@ -12,7 +11,7 @@ const App = () => {
 	const [initDataUnsafe, initData] = useInitData()
 	console.log({ initDataUnsafe, initData })
 	return (
-		<WebAppProvider>
+		<>
 			<button onClick={toggleBackBtn}>Back Button</button>
 			<button onClick={toggleMainBtn}>Main Button</button>
 			{isMainBtn && (
@@ -22,7 +21,7 @@ const App = () => {
 				/>
 			)}
 			{isBackBtn && <BackButton onClick={toggleBackBtn} />}
-		</WebAppProvider>
+		</>
 	)
 }
 
