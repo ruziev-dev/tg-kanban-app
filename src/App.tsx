@@ -1,35 +1,28 @@
-import WebApp from '@twa-dev/sdk'
+import {
+	WebAppProvider,
+	MainButton,
+	BackButton,
+	useInitData,
+} from '@vkruglikov/react-telegram-web-app'
+import { useReducer } from 'react'
 
 const App = () => {
-	console.log(WebApp)
-
-	const initParams = new URLSearchParams(WebApp.initData)
-
-	const user = initParams.get('user')
-	const query_id = initParams.get('query_id')
-	console.log({ query_id })
-
-	console.log(JSON.parse(user || ''))
-
-	/* 	console.log([...initParams.values()])
-	console.log([...initParams.keys()]) */
+	const [isMainBtn, toggleMainBtn] = useReducer(state => !state, false)
+	const [isBackBtn, toggleBackBtn] = useReducer(state => !state, false)
+	const [initDataUnsafe, initData] = useInitData()
+	console.log({ initDataUnsafe, initData })
 	return (
-		<div
-			style={{
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				width: '100vw',
-				height: '100vh',
-			}}>
-			<div style={{ textAlign: 'center' }}>
-				<h3>Init data</h3>
-				<p>user: {user}</p>
-				<button onClick={() => WebApp.sendData('Send some Data')}>
-					Push it to send some data
-				</button>
-			</div>
-		</div>
+		<WebAppProvider>
+			<button onClick={toggleBackBtn}>Back Button</button>
+			<button onClick={toggleMainBtn}>Main Button</button>
+			{isMainBtn && (
+				<MainButton
+					onClick={toggleMainBtn}
+					text={`PUSH ME ${initDataUnsafe.user}`}
+				/>
+			)}
+			{isBackBtn && <BackButton onClick={toggleBackBtn} />}
+		</WebAppProvider>
 	)
 }
 
